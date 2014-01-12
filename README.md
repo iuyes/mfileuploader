@@ -11,11 +11,16 @@ imageUpload
 
 ###使用方法
 
-    //html:
+####html
+
     <form method="post" id="uploadForm">
         <input type="file" name="file" id="fileEl" accept="image/*">
     </form>
-    //js:
+    
+    
+####js代码
+
+    //新建对象，传入file，form元素以及服务端action
     var fileUploader = new MFileUploader({
         fileEl:document.querySelector("#fileEl"),
         action:"/fileUpload",
@@ -33,12 +38,12 @@ imageUpload
     fileUploader.onFileUploadError = function(error){
         console.log("upload error:",error);
     };
-    //文件上传进度,ios6+支持,android 4部分浏览器支持(chrome支持)
-    /**
-    progress:(float)上传进度 0-1
-    speed:(string)上传速度
-    event:progress对象
-    */
+    /*
+        文件上传进度,ios6+支持,android 4部分浏览器支持(chrome支持)
+        progress:(float)上传进度 0-1
+        speed:(string)上传速度
+        event:progress对象
+    **/
     fileUploader.onFileUploading = function(progress,speed,event){
         console.log("progress:" + progress + " " + speed);
     };
