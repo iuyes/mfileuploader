@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title> my demo </title>
+	<meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" />
+	<meta charset="UTF-8" />
+	<style type="text/css">
+		*{
+			margin:0;
+			padding: 0;
+		}
+		.file-wrap{
+			display: block;
+			position: relative;
+			-webkit-box-align:center;
+			-webkit-box-pack:center;
+			width: 80px;
+			height: 40px;
+			background: yellow;
+			margin: 30px auto;
+		}
+		.file-common{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			left: 0;
+			top: 0;
+		}
+		.file-el{
+			z-index: 101;
+			opacity: 0;
+		}
+		.file-btn{
+			display: inline-block;
+			padding: 6px 12px;
+			font-size: 14px;
+			text-align: center;
+			white-space: nowrap;
+			vertical-align: middle;
+			border: 1px solid transparent;
+			border-radius: 4px;
+			color: #fff;
+			background-color: #5cb85c;
+			border-color: #4cae4c;
+			z-index: 100;
+		}
+		.upload-btn a{
+			width: 100px;
+			margin: 0 auto;
+			text-align: center;
+		}
+		.upload-btn .btn{
+			display: none;
+		}
+		.output{
+			background-color: #f4f8fa;
+			border-color: #bce8f1;
+			margin: 20px 0;
+			padding: 20px;
+			border-left: 3px solid #eee;
+			font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+			font-size: 14px;
+			line-height: 1.428571429;
+			color: #333;
+		}
+	</style>
+</head>
+<body>
+    <form method="post" id="uploadForm">
+    	<div class="file-wrap">
+    		<div class="file-common">
+    			<input type="file" name="file" id="fileEl" class="file-el file-common" accept="image/*">
+    			<button class="file-btn file-common">选择文件</button>
+    		</div>
+    	</div>
+    </form>
+    <div class="output">
+
+    </div>
+    <div class="upload-btn">
+    	<a href="javascript:;" id="uploadBtn" class="btn">上传</a>
+    </div>
+    <script type="text/javascript" src="/javascripts/mfileuploader.js"></script>
+    <script type="text/javascript">
+    	function Log(pEl){
+			this.el = pEl;
+		}
+		Log.prototype.add = function(msg){
+			var msgTpl = '<p>' + msg + '</p>';
+			this.el.innerHTML += msgTpl;
+		}
+		Log.prototype.init = function(msg){
+			var msgTpl = '<p>' + msg + '</p>';
+			this.el.innerHTML = msgTpl;
+		}
+    </script>
+    <script type="text/javascript">
+    	var log = new Log(document.querySelector(".output"));
+
+    	var fileUploader = new MFileUploader({
+    		fileEl:document.querySelector("#fileEl"),
+    		action:"/fileUpload",
+    		formEl:document.querySelector("#uploadForm")
+    	});
+
+    	var uploadBtn = document.querySelector(".upload-btn a");
+
+    	fileUploader.onFileSelect = function(file){
+    		log.init("file name:"+file.name);
+    		log.add("file size:"+MFileUploader.formatBytes(file.size));
+    		log.add("file type:"+file.type);
+    		log.add("file lastModifiedDate:"+file.lastModifiedDate);
+
+    		uploadBtn.style.display = "block";
+    	};
+    	fileUploader.onFileStartUpload = function(){
+    		uploadBtn.style.display = "none";
+    		log.add("start upload");
+    	};
+    	fileUploader.onFileUploadError = function(error){
+    		log.add("upload error:",error);
+    	};
+    	fileUploader.onFileUploading = function(progress,speed,event){
+    		log.add("progress:" + progress + " " + speed);
+    	};
+    	fileUploader.onFileUploadEnd = function(){
+    		log.add("upload end");
+    	};
+    	fileUploader.onFileUpLoaded = function(responsText){
+    		Bae对文件上传做了限制
+    		var img = document.createElement("image");
+    		img.src = "/images/upload/"+fileUploader.file.name;
+    		uploadBtn.parentNode.appendChild(img);
+
+    		// log.add("xhr end");
+    	};
+
+    	uploadBtn.addEventListener("click",function(){
+    		fileUploader.upload();
+    	});
+    </script>
+</body>
+</html>
