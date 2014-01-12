@@ -58,4 +58,5 @@ imageUpload
     //上传
     fileUploader.upload();
     
-      
+###demo
+<a href="http://cnalpha.duapp.com/" target="_blank">demo</a>
