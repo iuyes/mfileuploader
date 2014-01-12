@@ -13,7 +13,7 @@ function MFileUploader(option){
     this._init();
 }
 
-MFileUploader._IRAMEURL = "upload_iframe";
+MFileUploader._IRAMEURL = "mFileUploader_upload_iframe";
 
 //three class methods,format the size and speed to friendly value (codes from huangwei)
 MFileUploader.formatUnits = function(baseNumber, unitDivisors, unitLabels, singleFractional) {
@@ -76,7 +76,7 @@ MFileUploader.prototype = {
     },
     _initListener:function(){
         var _this = this;
-        $(this.fileEl).on("change",function(e){
+        this.fileEl.addEventListener("change",function(e){
             var files = e.target.files;
             // we need to check whether user just cancel the select
             if(!files.length){
@@ -128,6 +128,10 @@ MFileUploader.prototype = {
             upload = xhr.upload,
             lastProgress,lastTime;
 
+        if (!_this.onFileUploading){
+            _this.onFileUploading = function(){};
+        }
+
         formData.append('file',this.file);
         upload.addEventListener("progress",function(e){
             if(e.lengthComputable){
@@ -167,7 +171,6 @@ MFileUploader.prototype = {
         xhr.open("post",this.action,true);
         xhr.setRequestHeader("Cache-Control", "no-cache");
         xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-        xhr.setRequestHeader("X-File-Name", this.file.name);
         xhr.send(formData);
         // event after upload start
         this.onFileStartUpload&&this.onFileStartUpload();
