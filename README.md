@@ -61,4 +61,4 @@ imageUpload
 ###demo
 <a href="http://cnalpha.duapp.com/" target="_blank">demo</a>
 
-注:BAE对文件上传做了限制，可以尝试下载代码中的demo实例到本地尝试
+注:BAE对文件上传做了限制，可以下载代码中的demo实例到本地尝试
