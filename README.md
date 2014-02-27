@@ -59,6 +59,6 @@ imageUpload
     fileUploader.upload();
     
 ###demo
-<a href="http://cnalpha.duapp.com/" target="_blank">demo</a>
+<a href="http://techoke.duapp.com/upload" target="_blank">demo</a>
 
 注:BAE对文件上传做了限制，可以下载代码中的demo实例到本地尝试，上传的文件存入public/images/upload中
